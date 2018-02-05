@@ -66,4 +66,22 @@ module.exports = function(app, db){
 
     //D=Delete
 
+    app.delete('/notes/:id', (req, res) => {
+
+        const myDB = db.db('notesdb');
+        
+        const id = req.params.id;
+
+        const details = {'_id' : new ObjectId(id)};
+
+        myDB.collection('notes').remove(details, (err, result) => {
+            if(err){
+                res.send({'error' : 'Error deleteting...'});
+            }
+            else{
+                res.send('Note ' + id + ' is deleted!');
+            }
+        });
+    });
+
 };
