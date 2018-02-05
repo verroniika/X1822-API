@@ -38,11 +38,30 @@ module.exports = function(app, db){
             }
         })
 
-        console.log('Asking for a note')
+        console.log('Asking for a note :o')
         //res.send('This should be a returned note');
     });
 
     //U=Update
+
+    app.put('/notes/:id', (req, res) => {
+
+        const myDB = db.db('notesdb');
+
+        const id = req.params.id;
+
+        const details = {'_id' : new ObjectId(Id)};
+        const note = {text: req.body.body, title: req.body.title};
+
+        myDB.collection('notes').update(details, note, (err, result) => {
+            if(err){
+                res.send({'error' : '): ...ERROR... :('});
+            }
+            else{
+                res.send('note');
+            }
+        });
+    });
 
 
     //D=Delete
