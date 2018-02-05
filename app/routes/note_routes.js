@@ -1,19 +1,19 @@
 var ObjectID = require('mongodb').ObjectId;
 
-module.exports = function(app, db){
-    
+module.exports = function (app, db) {
+
     //C=Create
     app.post('/notes', (req, res) => {
 
         const myDB = db.db('notesdb');
         //myDB.collection('notes');
 
-        const note = {text: req.body.body, title: req.body.title };
+        const note = { text: req.body.body, title: req.body.title };
         myDB.collection('notes').insert(note, (err, result) => {
-            if (err){
-                res.send({'error' : 'An error has occured :('});
+            if (err) {
+                res.send({ 'error': 'An error has occured :(' });
             }
-            else{
+            else {
                 res.send(result.ops[0]);
             }
         });
@@ -28,15 +28,15 @@ module.exports = function(app, db){
 
         const id = req.params.id;
 
-        const details = {'_id' : new ObjectId(id)};
+        const details = { '_id': new ObjectId(id) };
         myDB.collection('notes').findOne(details, (err, item) => {
-            if(err){
-                res.send({'error' : 'An error again :(('});
+            if (err) {
+                res.send({ 'error' : 'An error again :((' });
             }
-            else{
+            else {
                 res.send(item);
             }
-        })
+        });
 
         console.log('Asking for a note :o')
         //res.send('This should be a returned note');
@@ -50,17 +50,21 @@ module.exports = function(app, db){
 
         const id = req.params.id;
 
-        const details = {'_id' : new ObjectId(Id)};
-        const note = {text: req.body.body, title: req.body.title};
+        const details = { '_id': new ObjectId(Id) };
+
+        const note = { text: req.body.body, title: req.body.title };
 
         myDB.collection('notes').update(details, note, (err, result) => {
-            if(err){
-                res.send({'error' : '): ...ERROR... :('});
+            if (err) {
+                res.send({ 'error' : '): ...ERROR... :(' });
             }
-            else{
+            else {
                 res.send('note');
             }
         });
+
+        console.log('Uppdating a note :)');
+
     });
 
 
@@ -69,19 +73,22 @@ module.exports = function(app, db){
     app.delete('/notes/:id', (req, res) => {
 
         const myDB = db.db('notesdb');
-        
+
         const id = req.params.id;
 
-        const details = {'_id' : new ObjectId(id)};
+        const details = { '_id' : new ObjectId(id) };
 
         myDB.collection('notes').remove(details, (err, result) => {
-            if(err){
-                res.send({'error' : 'Error deleteting...'});
+            if (err) {
+                res.send({ 'error' : 'Error deleteting...' });
             }
-            else{
+            else {
                 res.send('Note ' + id + ' is deleted!');
             }
         });
+
+        console.log('Deleted a note :|');
+
     });
 
 };
